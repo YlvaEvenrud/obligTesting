@@ -9,8 +9,10 @@ import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.BankRepository;
 import oslomet.testing.Models.Konto;
 import oslomet.testing.Models.Kunde;
+import oslomet.testing.Models.Transaksjon;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
+import javax.sound.midi.Track;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,5 +137,35 @@ public class EnhetstestBankController {
         // assert
         assertNull(resultat);
     }
+    @Test
+    public void hentBetalinger_LoggetInn(){
+        // arrange
+        List<Transaksjon> betalinger = new ArrayList<>();
+        Transaksjon betaling1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
+        betalinger.add(betaling1);
+
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+
+        when(repository.hentBetalinger(anyString())).thenReturn(betalinger);
+
+        // act
+        List<Transaksjon> resultat = bankController.hentBetalinger();
+
+        // assert
+        assertEquals(betalinger, resultat);
+        //assertNull(null);
+    }
+    @Test
+    public void hentBetalinger_IkkeLoggetInn(){
+        // arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        // act
+        List<Transaksjon> resultat = bankController.hentBetalinger();
+
+        // assert
+        assertNull(resultat);
+    }
 }
+
 
