@@ -24,7 +24,7 @@ public class BankController {
 
     @GetMapping("/hentTransaksjoner")
     public Konto hentTransaksjoner(String kontoNr, String fraDato, String tilDato) {
-         String personnummer = sjekk.loggetInn();
+            String personnummer = sjekk.loggetInn();
         if (personnummer!=null) {
             return repository.hentTransaksjoner(kontoNr, fraDato, tilDato);
         }

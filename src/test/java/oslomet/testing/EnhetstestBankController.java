@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.BankRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -101,6 +103,20 @@ public class EnhetstestBankController {
 
         // assert
         assertNull(resultat);
+    }
+
+    @Test
+    public void registrerBetaling_LoggetInn() {
+        // arrange
+        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
+
+        Mockito.when(repository.registrerBetaling((any(Transaksjon.class)))).thenReturn("OK");
+
+        // act
+        String resultat = bankController.registrerBetaling(betaling);
+
+        // assert
+        assertEquals("OK", resultat);
     }
 
     @Test
