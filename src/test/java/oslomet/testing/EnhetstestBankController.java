@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.BankRepository;
@@ -13,7 +12,6 @@ import oslomet.testing.Models.Kunde;
 import oslomet.testing.Models.Transaksjon;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
-import javax.sound.midi.Track;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +35,16 @@ public class EnhetstestBankController {
     @Mock
     // denne skal Mock'es
     private Sikkerhet sjekk;
+
+
+    @Test
+    public void hentTransaksjoner_loggetInn(){
+        when(sjekk.loggetInn()).thenReturn("12345678901");
+        Konto enKonto = new Konto();
+        when(repository.hentTransaksjoner("105010123456","2015-03-15","2015-03-15")).thenReturn(enKonto);
+        Konto resultat = bankController.hentTransaksjoner("105010123456","2015-03-15","2015-03-15");
+        assertEquals(enKonto, resultat);
+    }
 
 
     @Test
