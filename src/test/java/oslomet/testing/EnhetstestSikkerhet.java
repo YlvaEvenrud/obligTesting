@@ -14,8 +14,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 @RunWith(MockitoJUnitRunner.class)
 
 public class EnhetstestSikkerhet {
@@ -44,6 +44,7 @@ public class EnhetstestSikkerhet {
             return null;
         }).when(session).setAttribute(anyString(), any());
     }
+
     @Test
     public void test_sjekkLoggetInn(){
         // arrange
@@ -53,36 +54,50 @@ public class EnhetstestSikkerhet {
         //assert
         assertEquals("OK", resultat);
     }
-
+@Test
+public void testPersogPass(){
+    when(repository.sjekkLoggInn(anyString(),anyString())).thenReturn("NOT OK");
+    String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
+    assertEquals("Feil i personnummer eller passord", resultat);
+}
     @Test
-    public void test_LoggetInn(){
-        //arrange
-        session.setAttribute("Innlogget", "12345678901");
+    public void testPersonnummer(){
         //act
-        String resultat = sikkerhetsController.loggetInn();
+        String resultat = sikkerhetsController.sjekkLoggInn("1234567890", "HeiHeiHei");
         //assert
+        assertEquals("Feil i personnummer", resultat);
+    }
+    @Test
+    public void testPassord(){
+        //act
+        String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHe");
+        //assert
+        assertEquals("Feil i passord", resultat);
+    }
+    @Test
+    public void testBrukerinnlogget() {
+        session.setAttribute("Innlogget", "12345678901");
+
+        String resultat = sikkerhetsController.loggetInn();
+
         assertEquals("12345678901", resultat);
     }
-
-
     @Test
-    public void testLoggInnAdmin_SuccessfulLogin() {
-        String expectedResult = "Logget inn";
-        when(session.getAttribute("Innlogget")).thenReturn("Admin");
+    public void adminLoggetinn() {
+        session.setAttribute("Logget inn", "Admin");
 
-        String result = sikkerhetsController.loggInnAdmin("Admin", "Admin");
+        String resultat = sikkerhetsController.loggInnAdmin("Admin", "Admin");
 
-        assertEquals(expectedResult, result);
+        assertEquals("Logget inn", resultat);
     }
 
     @Test
-    public void testLoggInnAdmin_UnsuccessfulLogin() {
-        String expectedResult = "Ikke logget inn";
-        when(session.getAttribute("Innlogget")).thenReturn(null);
+    public void adminIkkeLoggetInn() {
+        session.setAttribute("Ikke logget inn", "Admin");
 
-        String result = sikkerhetsController.loggInnAdmin("Admin", "WrongPassword");
+        String resultat = sikkerhetsController.loggInnAdmin("Admin", "feilPassord");
 
-        assertEquals(expectedResult, result);
+        assertEquals("Ikke logget inn", resultat);
     }
 }
 
