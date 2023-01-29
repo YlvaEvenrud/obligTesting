@@ -12,6 +12,7 @@ import oslomet.testing.Sikkerhet.Sikkerhet;
 import java.util.HashMap;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -60,6 +61,7 @@ public void testPersogPass(){
     String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
     assertEquals("Feil i personnummer eller passord", resultat);
 }
+
     @Test
     public void testPersonnummer(){
         //act
@@ -98,6 +100,12 @@ public void testPersogPass(){
         String resultat = sikkerhetsController.loggInnAdmin("Admin", "feilPassord");
 
         assertEquals("Ikke logget inn", resultat);
+    }
+    @Test
+    public void testLoggUt() {
+        when(session.getAttribute("Innlogget")).thenReturn(null);
+        sikkerhetsController.loggUt();
+        assertNull(session.getAttribute("Innlogget"));
     }
 }
 
