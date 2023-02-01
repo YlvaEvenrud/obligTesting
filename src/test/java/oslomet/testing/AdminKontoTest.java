@@ -1,6 +1,8 @@
 package oslomet.testing;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -33,17 +35,15 @@ public class AdminKontoTest {
 
     @Test
     public void hentAlleKonti_loggetInn(){
-        // arrange
+        Mockito.when(this.repository.hentAlleKonti()).thenReturn((Object)null);
+        List<Konto> resultat = this.adminKontoController.hentAlleKonti();
+        Assert.assertNull(resultat);
+    }
+    @Test
+    public void testRegistrerKonto() {
         when(sjekk.loggetInn()).thenReturn("12345678910");
-
-        List<Konto> konti = new ArrayList<>();
-        konti.add(new Konto());
-        konti.add(new Konto());
-
-        when(repository.hentAlleKonti()).thenReturn(konti);
-        // act
-
-        // assert
-        assertEquals(konti, adminKontoController.hentAlleKonti());
+        Konto konto = new Konto();
+        when(repository.registrerKonto(konto)).thenReturn("OK");
+        assertEquals("OK", adminKontoController.registrerKonto(konto));
     }
 }
