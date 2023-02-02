@@ -142,7 +142,7 @@ public class EnhetstestBankController {
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        assertNull(null);
+        assertNull(resultat);
     }
     @Test
     public void registrerBetaling_IkkeLoggetInn(){
@@ -220,6 +220,33 @@ public class EnhetstestBankController {
         // assert
         assertNull(resultat);
     }
+    @Test
+    public void endreKundeInfo_loggetInn(){
+        // arrange
+        Kunde innkunde = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
+
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+
+        // act
+        String resultat = bankController.endre(innkunde);
+
+        // assert
+        assertNull(resultat);
+    }
+    @Test
+    public void endreKundeInfo_IkkeLoggetInn(){
+        // arrange
+        Kunde innkunde = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        // act
+        String resultat = bankController.endre(innkunde);
+
+        // assert
+        assertNull(null);
+    }
+
+
 }
 
 
