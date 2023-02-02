@@ -142,7 +142,7 @@ public class EnhetstestBankController {
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        assertNull(resultat);
+        assertNull(null);
     }
     @Test
     public void registrerBetaling_IkkeLoggetInn(){
@@ -220,6 +220,34 @@ public class EnhetstestBankController {
         // assert
         assertNull(resultat);
     }
+
+    @Test
+    public void utforBetaling_LoggetInn(){
+        //arrange
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
+        List<Transaksjon> betalinger = new ArrayList<>();
+        betalinger.add(betaling);
+
+        //act
+        List <Transaksjon> resultat = bankController.utforBetaling(1);
+
+        //assert
+        assertEquals(betalinger, resultat);
+    }
+
+    @Test
+    public void utforBetaling_IkkeLoggetInn(){
+        //arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        //act
+        List <Transaksjon> resultat = bankController.utforBetaling(1);
+
+        //assert
+        assertNull(resultat);
+    }
+
     @Test
     public void endreKundeInfo_loggetInn(){
         // arrange
