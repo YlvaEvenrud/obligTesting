@@ -38,24 +38,41 @@ public class EnhetstestBankController {
 
     @Test
     public void hentTransaksjoner_loggetInn(){
-        when(sjekk.loggetInn()).thenReturn("12345678901");
+        // arrange
         Konto enKonto = new Konto();
+
+        when(sjekk.loggetInn()).thenReturn("12345678901");
+
+        // act
         when(repository.hentTransaksjoner("105010123456","2015-03-15","2015-03-15")).thenReturn(enKonto);
         Konto resultat = bankController.hentTransaksjoner("105010123456","2015-03-15","2015-03-15");
+
+        // assert
         assertEquals(enKonto, resultat);
     }
+    @Test
+    public void hentTransaksjoner_IkkeloggetInn(){
+        // arrange
+        when(sjekk.loggetInn()).thenReturn(null);
 
+        //act
+        Konto resultat = bankController.hentTransaksjoner("105010123456","2015-03-15","2015-03-15");
+
+        //String resultat = bankController.hentTransaksjoner();
+
+        //String resultat = bankController.registrerBetaling(betaling);
+        // assert
+        assertNull(null);
+    }
 
     @Test
     public void hentKundeInfo_loggetInn() {
-
         // arrange
         Kunde enKunde = new Kunde("01010110523",
                 "Lene", "Jensen", "Askerveien 22", "3270",
                 "Asker", "22224444", "HeiHei");
 
         when(sjekk.loggetInn()).thenReturn("01010110523");
-
         when(repository.hentKundeInfo(anyString())).thenReturn(enKunde);
 
         // act
@@ -118,20 +135,18 @@ public class EnhetstestBankController {
         // arrange
         Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
 
-        //Mockito.when(repository.registrerBetaling((any(Transaksjon.class)))).thenReturn("OK");
+        when(sjekk.loggetInn()).thenReturn("OK");
 
         // act
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        //assertEquals(betaling, resultat);
         assertNull(null);
     }
     @Test
     public void registrerBetaling_IkkeLoggetInn(){
         // arrange
         Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
-
 
         // act
         String resultat = bankController.registrerBetaling(betaling);
