@@ -12,6 +12,7 @@ import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.AdminRepository;
 import oslomet.testing.DAL.BankRepository;
 import oslomet.testing.Models.Konto;
+import oslomet.testing.Models.Kunde;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
 import java.util.ArrayList;
@@ -31,13 +32,25 @@ public class AdminKontoTest {
 
     @Mock
     // denne skal Mock'es
-    Sikkerhet sjekk;
-
+    Sikkerhet sjekk = new Sikkerhet();
     @Test
-    public void hentAlleKonti_loggetInn(){
-        Mockito.when(this.repository.hentAlleKonti()).thenReturn((Object)null);
-        List<Konto> resultat = this.adminKontoController.hentAlleKonti();
-        Assert.assertNull(resultat);
+    public void hentKonti_LoggetInn() {
+        // arrange
+        List<Kunde> kunde = new ArrayList<>();
+        Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
+        Kunde kunde2 = new Kunde("12345678901", "Per", "Hansen", "Osloveien 82", "1234", "12345678", "HeiHei");
+        kunde.add(kunde1);
+        kunde.add(kunde2);
+
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+
+        when(repository.hentAlleKunder()).thenReturn(kunde);
+
+        // act
+        List<Kunde> resultat = repository.hentAlleKunder();
+
+        // assert
+        assertEquals(kunde, resultat);
     }
     @Test
     public void testRegistrerKonto() {
