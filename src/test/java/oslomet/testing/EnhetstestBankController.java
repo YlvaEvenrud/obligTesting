@@ -119,13 +119,12 @@ public class EnhetstestBankController {
         // arrange
         Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
 
-        //Mockito.when(repository.registrerBetaling((any(Transaksjon.class)))).thenReturn("OK");
+        when(sjekk.loggetInn()).thenReturn("OK");
 
         // act
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        //assertEquals(betaling, resultat);
         assertNull(null);
     }
     @Test
