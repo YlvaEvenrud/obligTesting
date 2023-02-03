@@ -55,7 +55,6 @@ public class EnhetstestBankController {
 
     @Test
     public void hentTransaksjoner_ikkeLoggetInn() {
-
         // arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
@@ -92,7 +91,6 @@ public class EnhetstestBankController {
     //TOR
     @Test
     public void hentKonti_IkkeLoggetInn() {
-
         // arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
@@ -107,6 +105,7 @@ public class EnhetstestBankController {
     public void hentSaldi_LoggetInn() {
         // arrange
         List<Konto> saldi = new ArrayList<>();
+
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
         Konto konto2 = new Konto("105010123456", "12345678901",
@@ -115,20 +114,18 @@ public class EnhetstestBankController {
         saldi.add(konto2);
 
         when(sjekk.loggetInn()).thenReturn("01010110523");
-
-        //when(repository.hentKonti(anyString())).thenReturn(saldi);
+        when(repository.hentSaldi(anyString())).thenReturn(saldi);
 
         // act
         List<Konto> resultat = bankController.hentSaldi();
 
         // assert
-        //assertEquals(saldi, resultat);
+        assertEquals(saldi, resultat);
     }
 
     @Test
     public void hentSaldi_IkkeLoggetInn() {
         // arrange
-
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act
