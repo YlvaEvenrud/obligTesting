@@ -142,7 +142,8 @@ public class EnhetstestBankController {
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        assertNull(null);
+        //assertNull(null);
+        assertEquals("OK",resultat);
     }
     @Test
     public void registrerBetaling_IkkeLoggetInn(){
@@ -154,7 +155,7 @@ public class EnhetstestBankController {
 
         // assert
         //assertEquals("Feil", resultat);
-        assertNull(null);
+        assertNull(resultat);
     }
 
     @Test
