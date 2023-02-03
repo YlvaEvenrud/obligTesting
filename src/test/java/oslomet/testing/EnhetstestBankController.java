@@ -38,26 +38,27 @@ public class EnhetstestBankController {
 
 
     @Test
-    public void hentTransaksjoner_loggetInn(){
+    public void hentTransaksjoner_loggetInn() {
         // arrange
         Konto enKonto = new Konto();
 
         when(sjekk.loggetInn()).thenReturn("12345678901");
 
         // act
-        when(repository.hentTransaksjoner("105010123456","2015-03-15","2015-03-15")).thenReturn(enKonto);
-        Konto resultat = bankController.hentTransaksjoner("105010123456","2015-03-15","2015-03-15");
+        when(repository.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15")).thenReturn(enKonto);
+        Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
 
         // assert
         assertEquals(enKonto, resultat);
     }
+
     @Test
-    public void hentTransaksjoner_IkkeloggetInn(){
+    public void hentTransaksjoner_IkkeloggetInn() {
         // arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
         //act
-        Konto resultat = bankController.hentTransaksjoner("105010123456","2015-03-15","2015-03-15");
+        Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
 
         //String resultat = bankController.hentTransaksjoner();
 
@@ -66,36 +67,7 @@ public class EnhetstestBankController {
         assertNull(null);
     }
 
-    @Test
-    public void hentKundeInfo_loggetInn() {
-        // arrange
-        Kunde enKunde = new Kunde("01010110523",
-                "Lene", "Jensen", "Askerveien 22", "3270",
-                "Asker", "22224444", "HeiHei");
-
-        when(sjekk.loggetInn()).thenReturn("01010110523");
-        when(repository.hentKundeInfo(anyString())).thenReturn(enKunde);
-
-        // act
-        Kunde resultat = bankController.hentKundeInfo();
-
-        // assert
-        assertEquals(enKunde, resultat);
-    }
-
-    @Test
-    public void hentKundeInfo_IkkeloggetInn() {
-
-        // arrange
-        when(sjekk.loggetInn()).thenReturn(null);
-
-        //act
-        Kunde resultat = bankController.hentKundeInfo();
-
-        // assert
-        assertNull(resultat);
-    }
-
+    //TOR
     @Test
     public void hentKonti_LoggetInn() {
         // arrange
@@ -118,6 +90,7 @@ public class EnhetstestBankController {
         assertEquals(konti, resultat);
     }
 
+    //TOR
     @Test
     public void hentKonti_IkkeLoggetInn() {
         // arrange
@@ -128,33 +101,6 @@ public class EnhetstestBankController {
         List<Konto> resultat = bankController.hentKonti();
 
         // assert
-        assertNull(resultat);
-    }
-
-    @Test
-    public void registrerBetaling_LoggetInn() {
-        // arrange
-        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
-
-        when(sjekk.loggetInn()).thenReturn("OK");
-
-        // act
-        String resultat = bankController.registrerBetaling(betaling);
-
-        // assert
-        //assertNull(null);
-        assertEquals("OK",resultat);
-    }
-    @Test
-    public void registrerBetaling_IkkeLoggetInn(){
-        // arrange
-        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
-
-        // act
-        String resultat = bankController.registrerBetaling(betaling);
-
-        // assert
-        //assertEquals("Feil", resultat);
         assertNull(resultat);
     }
 
@@ -192,8 +138,37 @@ public class EnhetstestBankController {
         // assert
         assertNull(resultat);
     }
+
     @Test
-    public void hentBetalinger_LoggetInn(){
+    public void registrerBetaling_LoggetInn() {
+        // arrange
+        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
+
+        when(sjekk.loggetInn()).thenReturn("OK");
+
+        // act
+        String resultat = bankController.registrerBetaling(betaling);
+
+        // assert
+        //assertNull(null);
+        assertEquals("OK", resultat);
+    }
+
+    @Test
+    public void registrerBetaling_IkkeLoggetInn() {
+        // arrange
+        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
+
+        // act
+        String resultat = bankController.registrerBetaling(betaling);
+
+        // assert
+        //assertEquals("Feil", resultat);
+        assertNull(resultat);
+    }
+
+    @Test
+    public void hentBetalinger_LoggetInn() {
         // arrange
         List<Transaksjon> betalinger = new ArrayList<>();
         Transaksjon betaling1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
@@ -210,8 +185,9 @@ public class EnhetstestBankController {
         assertEquals(betalinger, resultat);
         //assertNull(null);
     }
+
     @Test
-    public void hentBetalinger_IkkeLoggetInn(){
+    public void hentBetalinger_IkkeLoggetInn() {
         // arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
@@ -223,7 +199,7 @@ public class EnhetstestBankController {
     }
 
     @Test
-    public void utforBetaling_LoggetInn(){
+    public void utforBetaling_LoggetInn() {
         //arrange
         when(sjekk.loggetInn()).thenReturn("01010110523");
         Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
@@ -231,26 +207,61 @@ public class EnhetstestBankController {
         betalinger.add(betaling);
 
         //act
-        List <Transaksjon> resultat = bankController.utforBetaling(1);
+        List<Transaksjon> resultat = bankController.utforBetaling(1);
 
         //assert
         assertEquals(betalinger, resultat);
     }
 
     @Test
-    public void utforBetaling_IkkeLoggetInn(){
+    public void utforBetaling_IkkeLoggetInn() {
         //arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
         //act
-        List <Transaksjon> resultat = bankController.utforBetaling(1);
+        List<Transaksjon> resultat = bankController.utforBetaling(1);
 
         //assert
         assertNull(resultat);
     }
 
+    //TOR
     @Test
-    public void endreKundeInfo_loggetInn(){
+    public void hentKundeInfo_loggetInn() {
+
+        // arrange
+        Kunde enKunde = new Kunde("01010110523",
+                "Lene", "Jensen", "Askerveien 22", "3270",
+                "Asker", "22224444", "HeiHei");
+
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+
+        when(repository.hentKundeInfo(anyString())).thenReturn(enKunde);
+
+        // act
+        Kunde resultat = bankController.hentKundeInfo();
+
+        // assert
+        assertEquals(enKunde, resultat);
+    }
+
+    //TOR
+    @Test
+    public void hentKundeInfo_IkkeloggetInn() {
+
+        // arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        //act
+        Kunde resultat = bankController.hentKundeInfo();
+
+        // assert
+        assertNull(resultat);
+    }
+
+
+    @Test
+    public void endreKundeInfo_loggetInn() {
         // arrange
         Kunde innkunde = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
 
@@ -262,8 +273,9 @@ public class EnhetstestBankController {
         // assert
         assertNull(resultat);
     }
+
     @Test
-    public void endreKundeInfo_IkkeLoggetInn(){
+    public void endreKundeInfo_IkkeLoggetInn() {
         // arrange
         Kunde innkunde = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
         when(sjekk.loggetInn()).thenReturn(null);
