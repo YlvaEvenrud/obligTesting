@@ -1,5 +1,6 @@
 package oslomet.testing;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -8,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import oslomet.testing.API.AdminKundeController;
 import oslomet.testing.DAL.AdminRepository;
+import oslomet.testing.Models.Konto;
 import oslomet.testing.Models.Kunde;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
@@ -26,6 +28,7 @@ public class EnhetstestAdminKundeController {
 
     @Mock
     private AdminRepository repository;
+
     @Mock
     Sikkerhet sjekk;
 
@@ -41,7 +44,11 @@ public class EnhetstestAdminKundeController {
         List<Kunde> result = adminKundeController.hentAlle();
         assertEquals(kunder, result);
     }
-
+    @Test
+    public void test_HentAllefeil(){
+        List<Kunde> resultat = adminKundeController.hentAlle();
+        Assert.assertNull(resultat);
+    }
     @Test
     public void lagre_loggetInn() {
         // arrange

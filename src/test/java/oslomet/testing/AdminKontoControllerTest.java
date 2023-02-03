@@ -32,6 +32,7 @@ public class AdminKontoControllerTest {
 
     @Mock
     Sikkerhet sjekk;
+
     @Test
     public void test_hentAlleKonti() {
         List<Konto> kontoer = new ArrayList<>();
