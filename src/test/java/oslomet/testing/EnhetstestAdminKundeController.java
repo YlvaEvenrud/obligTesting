@@ -1,6 +1,7 @@
 package oslomet.testing;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -17,9 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class EnhetstestAdminKundeController {
     @InjectMocks
-    private AdminKundeController adminKundeController;
+    AdminKundeController adminKundeController;
 
     @Mock
     private AdminRepository repository;
@@ -40,9 +42,9 @@ public class EnhetstestAdminKundeController {
     }
 
     @Test
-    public void lagre_loggetInn(){
+    public void lagre_loggetInn() {
         // arrange
-        Kunde kunde1 = new Kunde("01010110523","Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
+        Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
 
         //Mockito.when(sjekk.loggetInn()).thenReturn("OK");
         //Mockito.when(repository.lagreKunde((any(Kunde.class)))).thenReturn("OK");
@@ -65,21 +67,34 @@ public class EnhetstestAdminKundeController {
         String resultat = adminKundeController.lagreKunde(kunde1);
 
         // assert
+        assertEquals("OK",resultat);
+
+    }
+
+    @Test
+    public void endreKunde_LoggetInn() {
+        //arrange
+        Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+
+        //act
+        String resultat = adminKundeController.endre(kunde1);
+
+        //assert
         assertNull(resultat);
     }
 
     @Test
-    public void slett_loggetInn(){
+    public void endreKunde_IkkeLoggetInn(){
         // arrange
-        String personnummer = new String("567676");
-        when(sjekk.loggetInn()).thenReturn("345242");
+        Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
+        when(sjekk.loggetInn()).thenReturn(null);
 
         // act
-        String resultat = adminKundeController.slett(personnummer);
+        String resultat = adminKundeController.endre(kunde1);
 
         // assert
-        assertEquals("OK",resultat);
-
+        assertNull(null);
     }
     @Test
     public void slett_ikkeLoggetInn(){
