@@ -19,6 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,6 +56,9 @@ public class EnhetstestAdminKundeController {
         Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
         when(sjekk.loggetInn()).thenReturn("01010110523");
 
+        //when(repository.registrerKunde()).thenReturn("kunde1");
+        //when(repository.registrerKunde(anyString())).thenReturn(kunde1);
+
         // act
         String resultat = adminKundeController.lagreKunde(kunde1);
 
@@ -67,12 +71,13 @@ public class EnhetstestAdminKundeController {
         // arrange
         Kunde kunde1 = new Kunde("01010110523","Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
 
+        //when(sjekk.loggetInn()).thenReturn("01010110523");
+
         // act
         String resultat = adminKundeController.lagreKunde(kunde1);
 
         // assert
         assertEquals("Ikke logget inn",resultat);
-
     }
 
     @Test
@@ -104,19 +109,21 @@ public class EnhetstestAdminKundeController {
     public void slett_loggetInn(){
         // arrange
         String personnummer = new String("567676");
-        when(sjekk.loggetInn()).thenReturn("345242");
+
+        when(sjekk.loggetInn()).thenReturn("567676");
+
+        when(repository.slettKunde(anyString())).thenReturn(personnummer);
 
         // act
         String resultat = adminKundeController.slett(personnummer);
 
         // assert
-        assertNull(resultat);
+        assertEquals(personnummer, resultat);
 
     }
     @Test
     public void slett_ikkeLoggetInn(){
         // arrange
-        String persnummer = new String("567676");
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act
