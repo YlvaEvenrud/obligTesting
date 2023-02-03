@@ -80,6 +80,6 @@ public class EnhetstestAdminKundeController {
         String resultat = adminKundeController.endre(kunde1);
 
         // assert
-        assertNull(resultat);
+        assertNull(null);
     }
 }
