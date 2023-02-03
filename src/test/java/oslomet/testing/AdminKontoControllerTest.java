@@ -20,6 +20,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -47,5 +49,35 @@ public class AdminKontoControllerTest {
     public void testHentAllekontiFeil() {
         List<Konto> resultat = adminKontoController.hentAlleKonti();
         Assert.assertNull(resultat);
+    }
+
+
+
+    @Test
+    public void slettKonto_LoggetInn(){
+        //arrange
+
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+        when(repository.slettKonto(anyString())).thenReturn("OK");
+
+        //act
+
+        String resultat = adminKontoController.slettKonto("105010123456");
+
+        //assert
+
+        assertEquals("OK", resultat);
+    }
+
+    @Test
+    public void slettKonto_IkkeLoggetInn(){
+        //arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        //act
+        String resultat = adminKontoController.slettKonto("105010123456");
+
+        //assert
+        assertEquals("Ikke innlogget", resultat);
     }
 }
