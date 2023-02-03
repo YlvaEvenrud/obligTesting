@@ -40,12 +40,13 @@ public class EnhetstestBankController {
     @Test
     public void hentTransaksjoner_loggetInn() {
         // arrange
-        Konto enKonto = new Konto();
+        Konto enKonto = new Konto("105010123456", "01010110523",
+                720, "Lønnskonto", "NOK", null);
 
-        when(sjekk.loggetInn()).thenReturn("12345678901");
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+        when(repository.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15")).thenReturn(enKonto);
 
         // act
-        when(repository.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15")).thenReturn(enKonto);
         Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
 
         // assert
@@ -53,16 +54,14 @@ public class EnhetstestBankController {
     }
 
     @Test
-    public void hentTransaksjoner_IkkeloggetInn() {
+    public void hentTransaksjoner_ikkeLoggetInn() {
+
         // arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
         //act
         Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
 
-        //String resultat = bankController.hentTransaksjoner();
-
-        //String resultat = bankController.registrerBetaling(betaling);
         // assert
         assertNull(null);
     }
@@ -93,8 +92,8 @@ public class EnhetstestBankController {
     //TOR
     @Test
     public void hentKonti_IkkeLoggetInn() {
-        // arrange
 
+        // arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act
