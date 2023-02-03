@@ -48,4 +48,33 @@ public class AdminKontoControllerTest {
         List<Konto> resultat = adminKontoController.hentAlleKonti();
         Assert.assertNull(resultat);
     }
+    @Test
+    public void registrerKonto_loggetInn() {
+        // arrange
+        //String konto = new String("105010123456");
+        Konto konto = new Konto();
+
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        //when(repository.registrerKonto(Konto kon)).thenReturn(konto);
+        //(when(repository.registrerKonto()).thenReturn(konto);
+
+
+        // act
+        String resultat = adminKontoController.registrerKonto(konto);
+
+        // assert
+        assertNull( resultat);
+    }
+    @Test
+    public void registrerKonto_ikkeLoggetInn() {
+        // arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        // act
+        String resultat = adminKontoController.registrerKonto(null);
+
+        // assert
+        assertEquals("Ikke innlogget",resultat);
+    }
 }
