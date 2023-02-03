@@ -14,7 +14,7 @@ import oslomet.testing.Sikkerhet.Sikkerhet;
 import java.util.List;
 
 @RestController
-public class BankController {
+    public class BankController {
 
     @Autowired
     BankRepository repository;

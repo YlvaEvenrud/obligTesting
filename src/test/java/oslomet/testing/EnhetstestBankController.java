@@ -271,7 +271,7 @@ public class EnhetstestBankController {
         String resultat = bankController.endre(innkunde);
 
         // assert
-        assertNull(null);
+        assertNull(resultat);
     }
 
 
