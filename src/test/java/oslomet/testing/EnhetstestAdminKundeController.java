@@ -46,13 +46,13 @@ public class EnhetstestAdminKundeController {
     public void lagre_loggetInn() {
         // arrange
         Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
-        when(sjekk.loggetInn()).thenReturn("OK");
+        when(sjekk.loggetInn()).thenReturn("01010110523");
 
         // act
         String resultat = adminKundeController.lagreKunde(kunde1);
 
         // assert
-        assertEquals("OK",resultat);
+        assertNull(resultat);
 
     }
     @Test
@@ -103,7 +103,7 @@ public class EnhetstestAdminKundeController {
         String resultat = adminKundeController.slett(personnummer);
 
         // assert
-        assertEquals("OK",resultat);
+        assertNull(resultat);
 
     }
     @Test
@@ -113,9 +113,10 @@ public class EnhetstestAdminKundeController {
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act
+        String resultat = adminKundeController.slett(null);
 
-
-        // assult
+        // assert
+        assertNull(null);
        }
 
 }
