@@ -61,7 +61,8 @@ public class EnhetstestBankController {
         Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
 
         // assert
-        assertNull(null);
+        //assertNull(null);
+        assertNull(resultat);
     }
 
     //TOR
