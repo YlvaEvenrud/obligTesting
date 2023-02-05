@@ -58,12 +58,13 @@ public class EnhetstestAdminKundeController {
 
         //when(repository.registrerKunde()).thenReturn("kunde1");
         //when(repository.registrerKunde(anyString())).thenReturn(kunde1);
+        when(repository.registrerKunde(any())).thenReturn("OK");
 
         // act
         String resultat = adminKundeController.lagreKunde(kunde1);
 
         // assert
-        assertNull(resultat);
+        assertEquals("OK", resultat);
 
     }
     @Test
@@ -71,7 +72,7 @@ public class EnhetstestAdminKundeController {
         // arrange
         Kunde kunde1 = new Kunde("01010110523","Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
 
-        //when(sjekk.loggetInn()).thenReturn("01010110523");
+        when(sjekk.loggetInn()).thenReturn(null);
 
         // act
         String resultat = adminKundeController.lagreKunde(kunde1);

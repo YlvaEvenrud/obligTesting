@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import oslomet.testing.API.AdminKontoController;
@@ -22,6 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,17 +55,17 @@ public class AdminKontoControllerTest {
         //String konto = new String("105010123456");
         Konto konto = new Konto();
 
-        when(sjekk.loggetInn()).thenReturn(null);
+        when(sjekk.loggetInn()).thenReturn("01010110523");
 
         //when(repository.registrerKonto(Konto kon)).thenReturn(konto);
-        //(when(repository.registrerKonto()).thenReturn(konto);
+        when(repository.registrerKonto(any())).thenReturn("OK");
 
 
         // act
         String resultat = adminKontoController.registrerKonto(konto);
 
         // assert
-        assertNull( resultat);
+        assertEquals("OK", resultat);
     }
     @Test
     public void registrerKonto_ikkeLoggetInn() {
