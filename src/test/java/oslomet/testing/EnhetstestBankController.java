@@ -136,16 +136,16 @@ public class EnhetstestBankController {
 
     @Test
     public void registrerBetaling_LoggetInn() {
-        // arrange
+       // arrange
         Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
 
         when(sjekk.loggetInn()).thenReturn("OK");
+        when(repository.registrerBetaling(any())).thenReturn("OK");
 
         // act
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        //assertNull(null);
         assertEquals("OK", resultat);
     }
 
@@ -158,7 +158,6 @@ public class EnhetstestBankController {
         String resultat = bankController.registrerBetaling(betaling);
 
         // assert
-        //assertEquals("Feil", resultat);
         assertNull(resultat);
     }
 
