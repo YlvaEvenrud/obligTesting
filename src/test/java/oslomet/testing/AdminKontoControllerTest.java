@@ -52,14 +52,10 @@ public class AdminKontoControllerTest {
     @Test
     public void registrerKonto_loggetInn() {
         // arrange
-        //String konto = new String("105010123456");
-        Konto konto = new Konto();
+        Konto konto = new Konto("105010123456", "01010110523", 720, "Lønnskonto", "NOK", null);
 
         when(sjekk.loggetInn()).thenReturn("01010110523");
-
-        //when(repository.registrerKonto(Konto kon)).thenReturn(konto);
         when(repository.registrerKonto(any())).thenReturn("OK");
-
 
         // act
         String resultat = adminKontoController.registrerKonto(konto);
