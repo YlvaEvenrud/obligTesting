@@ -117,6 +117,7 @@ public class EnhetstestBankController {
                 720, "Lønnskonto", "NOK", null);
         Konto konto2 = new Konto("105010123456", "12345678901",
                 1000, "Lønnskonto", "NOK", null);
+
         saldi.add(konto1);
         saldi.add(konto2);
 
@@ -145,10 +146,10 @@ public class EnhetstestBankController {
     @Test
     public void registrerBetaling_LoggetInn() {
         // arrange
-        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
+        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "1", "105010123456");
 
-        when(sjekk.loggetInn()).thenReturn("OK");
-        when(repository.registrerBetaling(any())).thenReturn("OK");
+        when(sjekk.loggetInn()).thenReturn("01010110523");
+        when(repository.registrerBetaling(betaling)).thenReturn("OK");
 
         // act
         String resultat = bankController.registrerBetaling(betaling);
