@@ -96,7 +96,7 @@ public class EnhetstestAdminKundeController {
     @Test
     public void endreKunde_IkkeLoggetInn(){
         // arrange
-        Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
+        Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act

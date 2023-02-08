@@ -39,17 +39,25 @@ public class EnhetstestBankController {
     @Test
     public void hentTransaksjoner_loggetInn() {
         // arrange
-        Konto enKonto = new Konto("105010123456", "01010110523",
-                720, "Lønnskonto", "NOK", null);
+        List<Transaksjon> transaksjoner = new ArrayList<>();
+
+        Transaksjon transaksjon1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "1", "105010123456");
+        Transaksjon transaksjon2 = new Transaksjon(2, "20102012345", 400.4, "2015-03-20", "Skagen", "1", "105010123456");
+
+        transaksjoner.add(transaksjon1);
+        transaksjoner.add(transaksjon2);
+
+        Konto konto1 = new Konto("01010110523", "105010123456", 720, "Lønnskonto", "NOK", transaksjoner);
 
         when(sjekk.loggetInn()).thenReturn("01010110523");
-        when(repository.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15")).thenReturn(enKonto);
+        when(repository.hentTransaksjoner(anyString(), anyString(), anyString())).thenReturn(konto1);
+
 
         // act
-        Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
+        Konto resultat = bankController.hentTransaksjoner("", "", "");
 
         // assert
-        assertEquals(enKonto, resultat);
+        assertEquals(konto1, resultat);
     }
 
     @Test
@@ -58,10 +66,9 @@ public class EnhetstestBankController {
         when(sjekk.loggetInn()).thenReturn(null);
 
         //act
-        Konto resultat = bankController.hentTransaksjoner("105010123456", "2015-03-15", "2015-03-15");
+        Konto resultat = bankController.hentTransaksjoner("", "", "");
 
         // assert
-        //assertNull(null);
         assertNull(resultat);
     }
 
@@ -137,7 +144,7 @@ public class EnhetstestBankController {
 
     @Test
     public void registrerBetaling_LoggetInn() {
-       // arrange
+        // arrange
         Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
 
         when(sjekk.loggetInn()).thenReturn("OK");
@@ -262,25 +269,28 @@ public class EnhetstestBankController {
     @Test
     public void endreKundeInfo_loggetInn() {
         // arrange
-        Kunde innkunde = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
-
+        Kunde enKunde = new Kunde("01010110523",
+                "Lene", "Jensen", "Askerveien 22", "3270",
+                "Asker", "22224444", "HeiHei");
         when(sjekk.loggetInn()).thenReturn("01010110523");
 
         // act
-        String resultat = bankController.endre(innkunde);
+        String resultat = bankController.endre(enKunde);
 
         // assert
-        assertNull(resultat);
+        assertEquals(enKunde, resultat);
     }
 
     @Test
     public void endreKundeInfo_IkkeLoggetInn() {
         // arrange
-        Kunde innkunde = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "22224444", "HeiHei");
+        Kunde enKunde = new Kunde("01010110523",
+                "Lene", "Jensen", "Askerveien 22", "3270",
+                "Asker", "22224444", "HeiHei");
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act
-        String resultat = bankController.endre(innkunde);
+        String resultat = bankController.endre(enKunde);
 
         // assert
         assertNull(resultat);
