@@ -99,7 +99,7 @@ public class EnhetstestSikkerhet {
     }
 
     @Test
-    public void brukerIkkeLoggetInn(){
+    public void brukerIkkeLoggetInn() {
         session.setAttribute(null, null);
 
         String resultat = sikkerhetsController.loggetInn();
@@ -127,9 +127,10 @@ public class EnhetstestSikkerhet {
 
     @Test
     public void testLoggUt() {
-        when(session.getAttribute("Innlogget")).thenReturn(null);
+        session.setAttribute("Innlogget", null);
         sikkerhetsController.loggUt();
-        assertNull(session.getAttribute("Innlogget"));
+        String resultat = sikkerhetsController.loggetInn();
+        assertNull(resultat);
     }
 }
 
