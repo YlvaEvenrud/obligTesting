@@ -34,7 +34,7 @@ public class EnhetstestSikkerhet {
 
     @Before
     public void initSession() {
-        Map<String, Object> attributes = new HashMap<String, Object>();
+        Map<String, Object> attributes = new HashMap<>();
 
         doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -53,16 +53,23 @@ public class EnhetstestSikkerhet {
     public void test_sjekkLoggetInn() {
         // arrange
         when(repository.sjekkLoggInn(anyString(), anyString())).thenReturn("OK");
+
         //act
         String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
+
         //assert
         assertEquals("OK", resultat);
     }
 
     @Test
-    public void testPersogPass() {
+    public void testPersNrogPasswd() {
+        //arrange
         when(repository.sjekkLoggInn(anyString(), anyString())).thenReturn("NOT OK");
+
+        //act
         String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
+
+        //assert
         assertEquals("Feil i personnummer eller passord", resultat);
     }
 
@@ -92,6 +99,15 @@ public class EnhetstestSikkerhet {
     }
 
     @Test
+    public void brukerIkkeLoggetInn(){
+        session.setAttribute(null, null);
+
+        String resultat = sikkerhetsController.loggetInn();
+
+        assertNull(resultat);
+    }
+
+    @Test
     public void adminLoggetinn() {
         session.setAttribute("Logget inn", "Admin");
 
@@ -102,9 +118,9 @@ public class EnhetstestSikkerhet {
 
     @Test
     public void adminIkkeLoggetInn() {
-        session.setAttribute("Ikke logget inn", "Admin");
+        session.setAttribute("Ikke logget inn", null);
 
-        String resultat = sikkerhetsController.loggInnAdmin("Admin", "feilPassord");
+        String resultat = sikkerhetsController.loggInnAdmin("", "");
 
         assertEquals("Ikke logget inn", resultat);
     }
