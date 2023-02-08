@@ -97,27 +97,29 @@ public class EnhetstestAdminKundeController {
     public void endreKunde_LoggetInn() {
         //arrange
         Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
+
         when(sjekk.loggetInn()).thenReturn("01010110523");
-        //Mangler mocking av repo :)
+        when(repository.endreKundeInfo(kunde1)).thenReturn("OK");
 
         //act
         String resultat = adminKundeController.endre(kunde1);
 
         //assert
-        assertNull(resultat);
+        assertEquals("OK", resultat);
     }
 
     @Test
     public void endreKunde_IkkeLoggetInn() {
         // arrange
         Kunde kunde1 = new Kunde("01010110523", "Lene", "Jensen", "Askerveien 22", "3270", "Asker", "22224444", "HeiHei");
+
         when(sjekk.loggetInn()).thenReturn(null);
 
         // act
         String resultat = adminKundeController.endre(kunde1);
 
         // assert
-        assertNull(null);
+        assertEquals("Ikke logget inn", resultat);
     }
 
     @Test
