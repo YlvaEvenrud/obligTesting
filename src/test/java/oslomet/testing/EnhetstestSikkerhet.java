@@ -1,4 +1,5 @@
 package oslomet.testing;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +10,10 @@ import org.mockito.stubbing.Answer;
 import org.springframework.mock.web.MockHttpSession;
 import oslomet.testing.DAL.BankRepository;
 import oslomet.testing.Sikkerhet.Sikkerhet;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +34,7 @@ public class EnhetstestSikkerhet {
 
     @Before
     public void initSession() {
-        Map<String, Object> attributes = new HashMap<>();
+        Map<String, Object> attributes = new HashMap<String, Object>();
 
         doAnswer((Answer<Object>) invocation -> {
             String key = (String) invocation.getArguments()[0];
@@ -47,35 +50,38 @@ public class EnhetstestSikkerhet {
     }
 
     @Test
-    public void test_sjekkLoggetInn(){
+    public void test_sjekkLoggetInn() {
         // arrange
-        when(repository.sjekkLoggInn(anyString(),anyString())).thenReturn("OK");
+        when(repository.sjekkLoggInn(anyString(), anyString())).thenReturn("OK");
         //act
         String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
         //assert
         assertEquals("OK", resultat);
     }
-@Test
-public void testPersogPass(){
-    when(repository.sjekkLoggInn(anyString(),anyString())).thenReturn("NOT OK");
-    String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
-    assertEquals("Feil i personnummer eller passord", resultat);
-}
 
     @Test
-    public void testPersonnummer(){
+    public void testPersogPass() {
+        when(repository.sjekkLoggInn(anyString(), anyString())).thenReturn("NOT OK");
+        String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
+        assertEquals("Feil i personnummer eller passord", resultat);
+    }
+
+    @Test
+    public void testPersonnummer() {
         //act
         String resultat = sikkerhetsController.sjekkLoggInn("1234567890", "HeiHeiHei");
         //assert
         assertEquals("Feil i personnummer", resultat);
     }
+
     @Test
-    public void testPassord(){
+    public void testPassord() {
         //act
         String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHe");
         //assert
         assertEquals("Feil i passord", resultat);
     }
+
     @Test
     public void testBrukerinnlogget() {
         session.setAttribute("Innlogget", "12345678901");
@@ -84,6 +90,7 @@ public void testPersogPass(){
 
         assertEquals("12345678901", resultat);
     }
+
     @Test
     public void adminLoggetinn() {
         session.setAttribute("Logget inn", "Admin");
@@ -101,6 +108,7 @@ public void testPersogPass(){
 
         assertEquals("Ikke logget inn", resultat);
     }
+
     @Test
     public void testLoggUt() {
         when(session.getAttribute("Innlogget")).thenReturn(null);

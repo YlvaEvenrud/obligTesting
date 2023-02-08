@@ -36,19 +36,39 @@ public class AdminKontoControllerTest {
 
     @Test
     public void test_hentAlleKonti() {
+        //arrange
+        List<Transaksjon> betalinger = new ArrayList<>();
+        Transaksjon betaling1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "1", "105010123456");
+        Transaksjon betaling2 = new Transaksjon(2, "20102012345", 400.4, "2015-03-20", "Skagen", "1", "105010123456");
+        betalinger.add(betaling1);
+        betalinger.add(betaling2);
+
         List<Konto> kontoer = new ArrayList<>();
-        Konto enKonto = new Konto("105010123456", "01010110523", 720, "Lønnskonto", "NOK", null);
+        Konto enKonto = new Konto("105010123456", "01010110523", 720, "Lønnskonto", "NOK", betalinger);
         kontoer.add(enKonto);
-        when(sjekk.loggetInn()).thenReturn("12345678901");
+
+        when(sjekk.loggetInn()).thenReturn("105010123456");
         when(repository.hentAlleKonti()).thenReturn(kontoer);
-        List<Konto> result = adminKontoController.hentAlleKonti();
-        assertEquals(kontoer, result);
+
+        //act
+        List<Konto> resultat = adminKontoController.hentAlleKonti();
+
+        //assert
+        assertEquals(kontoer, resultat);
     }
+
     @Test
     public void testHentAllekontiFeil() {
+        //arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        //act
         List<Konto> resultat = adminKontoController.hentAlleKonti();
-        Assert.assertNull(resultat);
+
+        //assert
+        assertNull(resultat);
     }
+
     @Test
     public void registrerKonto_loggetInn() {
         // arrange
@@ -63,6 +83,7 @@ public class AdminKontoControllerTest {
         // assert
         assertEquals("OK", resultat);
     }
+
     @Test
     public void registrerKonto_ikkeLoggetInn() {
         // arrange
@@ -72,11 +93,11 @@ public class AdminKontoControllerTest {
         String resultat = adminKontoController.registrerKonto(null);
 
         // assert
-        assertEquals("Ikke innlogget",resultat);
+        assertEquals("Ikke innlogget", resultat);
     }
 
     @Test
-    public void slettKonto_LoggetInn(){
+    public void slettKonto_LoggetInn() {
         //arrange
 
         when(sjekk.loggetInn()).thenReturn("01010110523");
@@ -92,7 +113,7 @@ public class AdminKontoControllerTest {
     }
 
     @Test
-    public void slettKonto_IkkeLoggetInn(){
+    public void slettKonto_IkkeLoggetInn() {
         //arrange
         when(sjekk.loggetInn()).thenReturn(null);
 
