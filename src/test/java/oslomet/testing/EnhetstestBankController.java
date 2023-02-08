@@ -206,12 +206,15 @@ public class EnhetstestBankController {
     @Test
     public void utforBetaling_LoggetInn() {
         //arrange
+        Transaksjon betaling1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "1", "105010123456");
+        Transaksjon betaling2 = new Transaksjon(2, "20102012345", 400.4, "2015-03-20", "Skagen", "1", "105010123456");
 
-        Transaksjon betaling = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "105010123456", "1");
         List<Transaksjon> betalinger = new ArrayList<>();
-        betalinger.add(betaling);
 
-        when(sjekk.loggetInn()).thenReturn("01010110523");
+        betalinger.add(betaling1);
+        betalinger.add(betaling2);
+
+        when(sjekk.loggetInn()).thenReturn("105010123456");
         when(repository.utforBetaling(anyInt())).thenReturn("OK");
         when(repository.hentBetalinger(anyString())).thenReturn(betalinger);
 
