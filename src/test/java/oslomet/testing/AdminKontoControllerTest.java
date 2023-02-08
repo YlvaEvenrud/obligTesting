@@ -113,22 +113,36 @@ public class AdminKontoControllerTest {
     @Test
     public void slettKonto_LoggetInn() {
         //arrange
+        List<Transaksjon> betalinger = new ArrayList<>();
+        Transaksjon betaling1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "1", "105010123456");
+        Transaksjon betaling2 = new Transaksjon(2, "20102012345", 400.4, "2015-03-20", "Skagen", "1", "105010123456");
+        betalinger.add(betaling1);
+        betalinger.add(betaling2);
+
+        Konto konto = new Konto("105010123456", "01010110523", 720, "Lønnskonto", "NOK", null);
 
         when(sjekk.loggetInn()).thenReturn("01010110523");
-        when(repository.slettKonto(anyString())).thenReturn("OK");
+        when(repository.registrerKonto(any())).thenReturn("OK");
 
         //act
-
         String resultat = adminKontoController.slettKonto("105010123456");
 
         //assert
-
         assertEquals("OK", resultat);
     }
 
     @Test
     public void slettKonto_IkkeLoggetInn() {
         //arrange
+        List<Transaksjon> betalinger = new ArrayList<>();
+        Transaksjon betaling1 = new Transaksjon(1, "20102012345", 100.5, "2015-03-15", "Fjordkraft", "1", "105010123456");
+        Transaksjon betaling2 = new Transaksjon(2, "20102012345", 400.4, "2015-03-20", "Skagen", "1", "105010123456");
+        betalinger.add(betaling1);
+        betalinger.add(betaling2);
+
+        Konto konto = new Konto("105010123456", "01010110523", 720, "Lønnskonto", "NOK", null);
+
+
         when(sjekk.loggetInn()).thenReturn(null);
 
         //act
