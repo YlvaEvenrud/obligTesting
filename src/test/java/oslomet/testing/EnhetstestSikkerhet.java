@@ -90,6 +90,30 @@ public class EnhetstestSikkerhet {
     }
 
     @Test
+    public void testRegexPersonnummerFeil() {
+        String tegn = sikkerhetsController.sjekkLoggInn("!@#¤%&/()=?+-", "HeiHei");
+        String kort = sikkerhetsController.sjekkLoggInn("123", "HeiHei");
+        String langt = sikkerhetsController.sjekkLoggInn("1234567890101112", "HeiHei");
+        String bokstaver = sikkerhetsController.sjekkLoggInn("HvaSkalDuGjøreIDag", "HeiHei");
+
+        assertEquals("Feil i personnummer", tegn);
+        assertEquals("Feil i personnummer", kort);
+        assertEquals("Feil i personnummer", langt);
+        assertEquals("Feil i personnummer", bokstaver);
+    }
+
+    @Test
+    public void testRegexPassordFeil() {
+        String kort = sikkerhetsController.sjekkLoggInn("12345678901", "Hei");
+        String langt = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHei1234567890101112testfunknåpls");
+        String tom = sikkerhetsController.sjekkLoggInn("12345678901", "");
+
+        assertEquals("Feil i passord", kort);
+        assertEquals("Feil i passord", langt);
+        assertEquals("Feil i passord", tom);
+    }
+
+    @Test
     public void testBrukerinnlogget() {
         session.setAttribute("Innlogget", "12345678901");
 
