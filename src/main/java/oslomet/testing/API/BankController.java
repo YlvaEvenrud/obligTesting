@@ -17,14 +17,6 @@ import java.util.List;
 @RestController
     public class BankController {
 
-    // Til databasen
-    @Autowired
-    private DataSource dataSource;
-    @GetMapping("/initDB")
-    public String initDB(){
-        return repository.initDB(dataSource);
-    }
-
     @Autowired
     BankRepository repository;
 
@@ -105,5 +97,13 @@ import java.util.List;
             return repository.endreKundeInfo(innKunde);
         }
         return null;
+    }
+
+    // Til databasen
+    @Autowired
+    private DataSource dataSource;
+    @GetMapping("/initDB")
+    public String initDB(){
+        return repository.initDB(dataSource);
     }
 }

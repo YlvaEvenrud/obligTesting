@@ -13,15 +13,6 @@ import java.util.List;
 @RequestMapping("/adminKonto")
 public class AdminKontoController {
 
-    // Til databasen
-    @Autowired
-    private DataSource dataSource;
-    @GetMapping("/initDB")
-    public String initDB(){
-        return repository.initDB(dataSource);
-    }
-
-
     @Autowired
     AdminRepository repository;
 
@@ -64,4 +55,6 @@ public class AdminKontoController {
         }
         return "Ikke innlogget";
     }
+
+
 }

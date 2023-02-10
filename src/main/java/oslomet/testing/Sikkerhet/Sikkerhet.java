@@ -15,13 +15,7 @@ import java.util.Enumeration;
 @RestController
 public class Sikkerhet {
 
-    // Til databasen
-    @Autowired
-    private DataSource dataSource;
-    @GetMapping("/initDB")
-    public String initDB(){
-        return rep.initDB(dataSource);
-    }
+
 
     @Autowired
     BankRepository rep;
