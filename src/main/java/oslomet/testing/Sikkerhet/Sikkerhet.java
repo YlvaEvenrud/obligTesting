@@ -9,10 +9,20 @@ import oslomet.testing.DAL.BankRepository;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+import javax.sql.DataSource;
 import java.util.Enumeration;
 
 @RestController
 public class Sikkerhet {
+
+    // Til databasen
+    @Autowired
+    private DataSource dataSource;
+    @GetMapping("/initDB")
+    public String initDB(){
+        return rep.initDB(dataSource);
+    }
+
     @Autowired
     BankRepository rep;
 

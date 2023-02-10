@@ -6,11 +6,22 @@ import oslomet.testing.DAL.AdminRepository;
 import oslomet.testing.Models.Konto;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/adminKonto")
 public class AdminKontoController {
+
+    // Til databasen
+    @Autowired
+    private DataSource dataSource;
+    @GetMapping("/initDB")
+    public String initDB(){
+        return repository.initDB(dataSource);
+    }
+
+
     @Autowired
     AdminRepository repository;
 

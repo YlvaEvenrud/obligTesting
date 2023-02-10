@@ -6,11 +6,21 @@ import oslomet.testing.DAL.AdminRepository;
 import oslomet.testing.Models.Kunde;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 @RestController
 @RequestMapping("/adminKunde")
 public class AdminKundeController {
+
+    // Til databasen
+    @Autowired
+    private DataSource dataSource;
+    @GetMapping("/initDB")
+    public String initDB(){
+        return repository.initDB(dataSource);
+    }
+
     @Autowired
     AdminRepository repository;
 
